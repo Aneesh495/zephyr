@@ -1,0 +1,36 @@
+{
+  "name": "zephyr",
+  "version": "1.0.0",
+  "description": "High-throughput distributed stream-relational engine and complex event processor in ECMAScript",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "zephyr": "./bin/zephyr.js",
+    "zephyr-server": "./bin/zephyr-server.js",
+    "zephyr-repl": "./bin/zephyr-repl.js"
+  },
+  "scripts": {
+    "start": "node bin/zephyr-server.js",
+    "repl": "node bin/zephyr-repl.js",
+    "test": "node --test test/**/*.test.js",
+    "test:unit": "node --test test/unit/**/*.test.js",
+    "test:integration": "node --test test/integration/**/*.test.js",
+    "test:regressions": "node --test test/regressions/**/*.test.js",
+    "bench": "node bench/all_benchmarks.js",
+    "audit": "python3 tools/audit_em_dashes.py",
+    "chaos": "node tools/chaos_runner.js",
+    "clean": "rm -rf data tmp *.log"
+  },
+  "keywords": [
+    "stream-processing",
+    "complex-event-processing",
+    "stream-relational",
+    "raft-consensus",
+    "event-driven-architecture"
+  ],
+  "author": "Aneesh Krishna <aneesh@aneesh.org>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
