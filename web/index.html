@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zephyr // Mission Control & Streamflow Visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="brand">
+      <span class="logo-glyph">&#9670;</span>
+      <span class="logo-text">ZEPHYR</span>
+      <span class="badge">STREAM RELATIONAL ENGINE</span>
+    </div>
+    <div class="cluster-status">
+      <span class="indicator-dot online"></span>
+      <span id="clusterStatusText">CLUSTER ONLINE (127.0.0.1:9092)</span>
+    </div>
+  </header>
+
+  <main class="dashboard-grid">
+    <!-- Top Stat Gauges -->
+    <section class="stat-bar">
+      <div class="stat-card">
+        <div class="stat-label">TOTAL EVENTS INGESTED</div>
+        <div class="stat-value" id="statEventsTotal">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">INGESTION THROUGHPUT</div>
+        <div class="stat-value" id="statThroughput">0 <span class="unit">events/s</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">P99 LATENCY</div>
+        <div class="stat-value" id="statP99">0.24 <span class="unit">ms</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">ACTIVE TOPICS</div>
+        <div class="stat-value" id="statTopics">3</div>
+      </div>
+    </section>
+
+    <!-- Visual Streamflow DAG -->
+    <section class="panel stream-dag-panel">
+      <div class="panel-header">
+        <h2>Live Streamflow Topography DAG</h2>
+        <span class="panel-subtitle">Real-time particle flow & watermark progression</span>
+      </div>
+      <div class="canvas-container">
+        <canvas id="streamCanvas"></canvas>
+      </div>
+    </section>
+
+    <!-- Stream-SQL Console & Execution Planner -->
+    <section class="panel sql-panel">
+      <div class="panel-header">
+        <h2>Stream-SQL Dynamic Query Console</h2>
+        <button id="btnCompile" class="btn primary">COMPILE PLAN</button>
+      </div>
+      <div class="sql-editor-container">
+        <textarea id="sqlInput" spellcheck="false">SELECT symbol, COUNT(*) AS trade_count, AVG(price) AS vwap
+FROM trades
+WHERE price > 100.0 AND status = 'FILLED'
+GROUP BY symbol, WINDOW(TUMBLING, SIZE 5 SECONDS)
+EMIT CHANGES;</textarea>
+      </div>
+      <div class="plan-output-container">
+        <div class="output-header">PHYSICAL EXECUTION PLAN:</div>
+        <pre id="planOutput">Click 'COMPILE PLAN' to inspect the optimized physical DAG.</pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
